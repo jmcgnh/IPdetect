@@ -1,0 +1,68 @@
+IPdetect
+version: 0.5b (beta) (02.Sep.2005)
+(c) Mariusz Kaczmarczyk <koshmar@poczta.fm>
+
+IP change detection script.
+IPdetect should be run with Cron (or other task scheduler) every minute, to
+detect IP changes. It detects 'public' IP of your connection and if change
+is detected it runs scripts. It works behind NAT as well. You may use it
+(for sample) when you have xDSL connection with variable IP, and you want
+to provide some hosting functionality. Scripts run on change should then
+update your DNS name to your current IP address.
+IPdetect was tested on Debian GNU/Linux with freedns.afraid.org and
+'curl --silent <update_URL>' command, and it worked OK.
+
+LICENSE:
+This program and all of its components are subject to GPL version 2 license
+(http://www.gnu.org/licenses/gpl.html).
+Please e-mail me if you find this script useful or if you see any bugs.
+There's no warranty of any kind for this software, you use it for your own
+risk!
+
+REQUIREMENTS:
+- modern version of UNIX-like OS with Bash (should work with any POSIX
+compliant shell, but not tested)
+- wget or cURL
+- Cron or other task scheduler
+- dnsutils (for host based detection)
+- internet connection :-)
+
+FILES:
+/etc/IPdetect/IPdetect.conf - main configuration file, it's well commented.
+Setup it before running IPdetect.
+/etc/IPdetect/change_run.sh - this script is run when IP change is
+detected. It should contain update commands. It must have executable
+attribute set. Protect this file from unauthorized read/run, set access
+mode to 700 (as it may contain update URLs or DNS services passwords etc.).
+/etc/IPdetect/ip_sources - place sites providing your public IP here. It
+doesn't need to be ONLY your IP, but less junk is better. :-) Some working
+sites included.
+/var/lib/IPdetect/last_detect - automatically created storage file for
+results of last execution, like last IP, IP detection time, IP update time.
+Modyfying this file may lead to net abuses!
+/var/log/IPdetect/IPdetect.log - log file. More about its format soon.
+
+ERRORS:
+On exit IPdetect can return one of the following codes:
+0 - No error (include notices)
+1 - Cannot locate config file
+2 - Bad STORE_DIR, must be existing directory with read & write privileges
+3 - Bad IP_RETRIEVE_METHOD, must be one of: 'wget', 'curl'
+4 - No web source returned valid IP number
+5 - Bad IP_COMPARE_METHOD, should be one of: 'last', 'host'
+6 - Cannot resolve domain from CHECK_DOMAIN
+7 - Cannot execute change_run.sh script
+8 - CHECK_DOMAIN cannot be empty when IP_COMPARE_METHOD is 'host'
+9 - Cannot write to temporary directory
+
+COMMAND LINE OPTIONS:
+-h (--help) - short help message
+-f (--force-update) - force running of change_run.sh script
+
+INSTALLATION:
+1. Copy all files from archive to your filesystem, preserving paths
+and permissions
+2. Edit /etc/IPdetect/IPdetect.conf file and setup desired configuration
+3. Add your IP source URL to /etc/IPdetect/ip_sources or use shipped default
+4. Edit /etc/IPdetect/change_run.sh and add your update commands here
+5. Restart Cron (crontab file shipped with program should add suitable task)
