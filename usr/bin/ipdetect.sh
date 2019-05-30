@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ### IPdetect script, version 0.5b (beta)
 ### (c) Mariusz Kaczmarczyk, 2005
