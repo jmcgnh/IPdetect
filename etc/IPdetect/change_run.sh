@@ -9,6 +9,7 @@
 # This script is run by IPdetect with 2 parameters: the first is the new
 # IP address, the second is CHECK_DOMAIN value from IPdetect.conf
 
-
+# Debugging line...
+# echo `/bin/date` "1=$1 2=$2" >>/var/log/IPdetect/change_run.log
 
 exit 0;

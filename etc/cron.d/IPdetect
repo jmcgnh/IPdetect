@@ -1,1 +1,3 @@
 * * * * * root /usr/bin/ipdetect.sh
+# Debug version
+# * * * * * root /bin/bash -c "/usr/bin/ipdetect.sh 2>>/var/log/IPdetect/ipdetect.err 1>>/var/log/IPdetect/ipdetect.out"
