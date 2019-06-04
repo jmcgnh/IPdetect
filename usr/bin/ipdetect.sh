@@ -112,7 +112,17 @@ log_output() {
 	ITEM_1="-${LOG_EVENT_ID}-";
 	ITEM_2="`date "+${LOG_DATE_FORMAT}"`";
 	ITEM_3="${IP_COMPARE_METHOD}";
-	ITEM_4="${LAST_IP}";
+        case "${IP_COMPARE_METHOD}" in
+	      'host')
+		ITEM_4="${HOST_IP}"
+		;;
+	      'last')
+		ITEM_4="${LAST_IP}";
+		;;
+		*)
+			return;
+		;;
+	esac;
 	ITEM_5="${IP_NOW}";
 	ITEM_6="${IP_SOURCE_NOW}";
 	ITEM_8="$2";
